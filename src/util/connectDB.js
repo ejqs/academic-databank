@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 
 // TODO: Investigate if this causes too many unwanted connections.
 // FIXME: might have problem where it would create a new connection post/get request
-const DATABASE_URL = process.env.DATABASE_URL;
+const DATABASE_URL = process.env.MONGODB_URI;
 
 if (!DATABASE_URL) {
   throw new Error(
