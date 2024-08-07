@@ -1,0 +1,10 @@
+// Example structure of feature flag in MongoDB
+
+{
+  "_id": {
+    "$oid": "66b32293d61ed3a2063fce09"
+  },
+  "features": {
+    "allowCreatePost": false
+  }
+}
