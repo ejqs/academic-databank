@@ -3,6 +3,7 @@ import AuthButton from "@components/auth-button";
 import config from "@/config";
 import "./Header.css";
 
+// TODO: Include version number in Title
 export default function Header() {
   return (
     <>
