@@ -62,20 +62,25 @@ export default {
 
       const personalEmailsFeature = await allowPersonalEmails();
       if (personalEmailsFeature) {
-        console.log("personal emails feature:", personalEmailsFeature);
-        const response = await fetch(
-          `${
-            process.env.ACCOUNTS_CHECKPERSONALEMAILVALID_URL
-          }?personalEmail=${encodeURIComponent(profile.email)}`
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("User data:", data);
-            return data; // returns true or false
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-          });
+        try {
+          const response = await fetch(
+            `${
+              process.env.ACCOUNTS_CHECKPERSONALEMAILVALID_URL
+            }?personalEmail=${encodeURIComponent(profile.email)}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          const data = await response.json();
+          console.log("User data:", data);
+          return data; // Make sure this returns true or false based on your API response
+        } catch (error) {
+          console.error("Error:", error);
+          return false;
+        }
       }
 
       return false;
