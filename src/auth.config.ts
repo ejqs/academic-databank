@@ -1,6 +1,7 @@
 // Following this https://authjs.dev/getting-started/migrating-to-v5#edge-compatibility
 import type { NextAuthConfig } from "next-auth";
 import Google from "next-auth/providers/google";
+import { allowPersonalEmails } from "@/flags";
 import connectDB from "@/util/connectDB";
 import User from "@/models/UserModel";
 
@@ -58,18 +59,26 @@ export default {
 
       // Check if the email exists in the database
       // FIXME: Mongoose works on dev, not on build/prod
-      await connectDB();
-      const existingUser = await User.findOne({
-        personal_email: profile.email,
-      });
 
-      if (existingUser) {
-        // Email found, allow sign in
-        return true;
-      } else {
-        // Email not found, deny sign in
-        return false;
+      const personalEmailsFeature = await allowPersonalEmails();
+      if (personalEmailsFeature) {
+        console.log("personal emails feature:", personalEmailsFeature);
+        const response = await fetch(
+          `${
+            process.env.ACCOUNTS_CHECKPERSONALEMAILVALID_URL
+          }?personalEmail=${encodeURIComponent(profile.email)}`
+        )
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("User data:", data);
+            return data; // returns true or false
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+          });
       }
+
+      return false;
     },
   },
 } satisfies NextAuthConfig;

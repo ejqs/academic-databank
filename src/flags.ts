@@ -13,4 +13,15 @@ export const allowCreatePosts = flag({
   defaultValue: true,
 });
 
-export const precomputeFlags = [allowCreatePosts] as const;
+export const allowPersonalEmails = flag({
+  key: "allowPersonalEmails",
+  description: "Allows users to use personal emails.",
+  decide: async () => {
+    const response = await fetch(process.env.FEATURE_FLAGS_URL);
+    const flags = await response.json();
+    return flags["allowPersonalEmails"];
+  },
+  defaultValue: true,
+});
+
+export const precomputeFlags = [allowCreatePosts, allowPersonalEmails] as const;
