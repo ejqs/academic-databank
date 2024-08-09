@@ -1,4 +1,6 @@
+import "@app/globals.css";
 import { allowCreatePosts } from "@/flags";
+
 async function CreateButton() {
   const createPosts = await allowCreatePosts();
 
