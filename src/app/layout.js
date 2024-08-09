@@ -1,9 +1,6 @@
-import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "../components/Header/Header";
-import CreateButton from "@/components/create-button";
-
-const inter = Inter({ subsets: ["latin"] });
+import Header from "@components/Header/Header";
+import Footer from "@components/Footer/Footer";
 
 export const metadata = {
   title: "SUSG Academic Databank",
@@ -13,10 +10,19 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <Header></Header>
-        <CreateButton></CreateButton>
-        {children}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "50vh",
+          }}
+        >
+          {children}
+        </div>
+        <Footer></Footer>
       </body>
     </html>
   );

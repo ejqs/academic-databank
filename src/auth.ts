@@ -1,6 +1,5 @@
 // Following this https://authjs.dev/getting-started/migrating-to-v5#edge-compatibility
 import NextAuth from "next-auth";
-import Google from "next-auth/providers/google";
 import { MongoDBAdapter } from "@auth/mongodb-adapter";
 import client from "@/lib/db";
 import authConfig from "./auth.config";
