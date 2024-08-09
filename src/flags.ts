@@ -3,12 +3,12 @@
 // DONE: Reduce the number of requests to the database
 // by caching the flags in memory.
 
-// TODO: Test if caching is working properly
+// DONE: Test if caching is working properly
 
 import { unstable_flag as flag } from "@vercel/flags/next";
 
 const cache = new Map<string, { value: any; expiry: number }>();
-const CACHE_EXPIRY_TIME = 1 * 60 * 1000; // 5 minutes
+const CACHE_EXPIRY_TIME = 1 * 60 * 1000; // 1 minutes
 
 async function getFlagValue(key: string): Promise<any> {
   const cachedFlag = cache.get(key);
