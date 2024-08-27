@@ -1,4 +1,4 @@
-// config.js
+// strings
 module.exports = {
   appName: "SUSG Academic Databank",
   orgName: "Silliman University Student Government",
