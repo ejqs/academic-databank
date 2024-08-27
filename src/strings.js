@@ -4,7 +4,7 @@ module.exports = {
   orgAcronym: "SUSG",
   orgName: "Silliman University Student Government",
   appName: "SUSG Academic Databank",
-
+  appDescription: "A databank for student made academic papers.",
   // generic footer strings
   copyrightYear: "2024",
   aboutFooter: "About",
