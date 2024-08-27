@@ -13,16 +13,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body>
         <Header></Header>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            height: "50vh",
-          }}
-        >
-          {children}
-        </div>
+        <div>{children}</div>
         <Footer></Footer>
       </body>
     </html>
