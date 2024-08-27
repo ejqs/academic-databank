@@ -1,12 +1,17 @@
-// strings
+// strings.js
 module.exports = {
-  appName: "SUSG Academic Databank",
-  orgName: "Silliman University Student Government",
+  // modify these values to customize the app to your organization
   orgAcronym: "SUSG",
+  orgName: "Silliman University Student Government",
+  appName: "SUSG Academic Databank",
+
+  // generic footer strings
   copyrightYear: "2024",
   aboutFooter: "About",
   securityFooter: "Security",
   githubFooter: "Github",
   contactFooter: "Contact",
+
+  // generic homepage strings
   homepageAcessible: "Accessible only through emails ending with @su.edu.ph",
 };
