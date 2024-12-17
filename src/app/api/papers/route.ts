@@ -1,15 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/util/connectDB";
 import Paper from "@/models/Paper";
+import { ensureDBConnection } from "@/lib/ensureDB";
 
 // Connect to the database before handling any request
-async function ensureDBConnection() {
-  try {
-    await connectDB();
-  } catch (error) {
-    throw new Error("Database connection failed");
-  }
-}
 
 // Handle GET requests to fetch papers
 export async function GET(req: NextRequest) {
@@ -55,7 +48,7 @@ export async function POST(req: NextRequest) {
       department,
       declaration,
       hiddenByAdmin,
-      hiddenByUserUntil,
+      hiddenByUser,
       status,
     } = await req.json();
 
@@ -69,7 +62,7 @@ export async function POST(req: NextRequest) {
       department,
       declaration,
       hiddenByAdmin,
-      hiddenByUserUntil,
+      hiddenByUser,
       status,
       date: new Date(),
       created: new Date(),
