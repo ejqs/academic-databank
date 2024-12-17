@@ -36,7 +36,7 @@ const User = new mongoose.Schema(
   },
   {
     collection: "users",
-  }
+  },
 );
 
 export default mongoose.models && mongoose.models.User

@@ -102,7 +102,7 @@ const Form = ({ formId, paperForm, forNewPaper = true }: Props) => {
   const handleChange = (
     e: React.ChangeEvent<
       HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
-    >
+    >,
   ) => {
     const target = e.target;
     const value =

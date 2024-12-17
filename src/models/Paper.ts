@@ -42,7 +42,7 @@ const PaperSchema = new Schema<IPaper>({
       validator: function (emails: string[]) {
         // Validate email format
         return emails.every((email) =>
-          /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+          /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
         );
       },
       message: "Authors must be valid email addresses.",

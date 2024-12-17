@@ -21,7 +21,7 @@ const Item = mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export default mongoose.models.Paper || mongoose.model("Paper", Paper);

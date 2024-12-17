@@ -73,7 +73,7 @@ export default {
               headers: {
                 "Content-Type": "application/json",
               },
-            }
+            },
           );
           const data = await response.json();
           console.log("User data:", data);
