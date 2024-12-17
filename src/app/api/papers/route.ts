@@ -10,14 +10,14 @@ export async function GET(req: NextRequest) {
 
   const { searchParams } = new URL(req.url);
   const paperId = searchParams.get("id"); // Check if there's a paper ID provided in the query
-
+  console.log("🆔", paperId);
   try {
     if (paperId) {
       const paper = await Paper.findById(paperId);
       if (!paper) {
         return NextResponse.json(
           { message: "Paper not found" },
-          { status: 404 }
+          { status: 404 },
         );
       }
       return NextResponse.json(paper);
@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to fetch papers", details: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -79,12 +79,12 @@ export async function POST(req: NextRequest) {
     // Respond with the created paper
     return NextResponse.json(
       { message: "Paper created successfully", paper: savedPaper },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to create paper", details: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -100,7 +100,7 @@ export async function PUT(req: NextRequest) {
     if (!paperId) {
       return NextResponse.json(
         { error: "Paper ID is required for updating" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -126,7 +126,7 @@ export async function PUT(req: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to update paper", details: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -142,7 +142,7 @@ export async function DELETE(req: NextRequest) {
     if (!paperId) {
       return NextResponse.json(
         { error: "Paper ID is required for deletion" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -155,7 +155,7 @@ export async function DELETE(req: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to delete paper", details: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
