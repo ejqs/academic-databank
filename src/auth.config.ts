@@ -35,7 +35,6 @@ export default {
           last_submission_time: profile.last_submission_time ?? 0,
           rate_limit: profile.rate_limit ?? 5,
           isFrozen: profile.isFrozen ?? false,
-          favorites: profile.favorites ?? [],
           ...profile,
         };
       },
@@ -45,6 +44,7 @@ export default {
     //   Very very scuffed solution
     // TODO: Need way to migrate data to personal account and visa versa.
     // TODO: Check if I change datafields for profile here if it will be affected in above.
+    // FOUND Solution: Separate User Collection from Data
 
     async signIn({ profile }) {
       // Banned users; No Read/Write Access
@@ -88,6 +88,13 @@ export default {
     authorized: async ({ auth }) => {
       // Logged in users are authenticated, otherwise redirect to login page
       return !!auth;
+    },
+    async redirect({ url, baseUrl }) {
+      // Allows relative callback URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // Allows callback URLs on the same origin
+      else if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
     },
   },
 } satisfies NextAuthConfig;
