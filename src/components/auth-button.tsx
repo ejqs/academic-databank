@@ -4,7 +4,7 @@ import SignOut from "@/components/sign-out";
 
 async function AuthButton() {
   const session = await auth();
-  console.log(session);
+  // console.log("🔃", session);
   if (!session?.user) return <SignIn />;
   return <SignOut />;
 }

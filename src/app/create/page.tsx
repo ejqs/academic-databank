@@ -1,4 +1,4 @@
-import Form from "@components/Form/Form";
+// import Form from "@components/Form/Form";
 
 export default function CreatePaper() {
   // Initial form data for creating a new paper
@@ -19,11 +19,11 @@ export default function CreatePaper() {
   return (
     <div>
       <h1>Create a New Paper</h1>
-      <Form
+      {/* <Form
         formId="create-paper-form"
         paperForm={initialFormData}
         forNewPaper={true} // Passing a boolean value as intended
-      />
+      /> */}
     </div>
   );
 }

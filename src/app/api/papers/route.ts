@@ -1,15 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import connectDB from "@/util/connectDB";
 import Paper from "@/models/Paper";
+import { ensureDBConnection } from "@/lib/ensureDB";
 
 // Connect to the database before handling any request
-async function ensureDBConnection() {
-  try {
-    await connectDB();
-  } catch (error) {
-    throw new Error("Database connection failed");
-  }
-}
 
 // Handle GET requests to fetch papers
 export async function GET(req: NextRequest) {
@@ -17,14 +10,14 @@ export async function GET(req: NextRequest) {
 
   const { searchParams } = new URL(req.url);
   const paperId = searchParams.get("id"); // Check if there's a paper ID provided in the query
-
+  console.log("🆔", paperId);
   try {
     if (paperId) {
       const paper = await Paper.findById(paperId);
       if (!paper) {
         return NextResponse.json(
           { message: "Paper not found" },
-          { status: 404 }
+          { status: 404 },
         );
       }
       return NextResponse.json(paper);
@@ -35,7 +28,7 @@ export async function GET(req: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to fetch papers", details: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -55,7 +48,7 @@ export async function POST(req: NextRequest) {
       department,
       declaration,
       hiddenByAdmin,
-      hiddenByUserUntil,
+      hiddenByUser,
       status,
     } = await req.json();
 
@@ -69,7 +62,7 @@ export async function POST(req: NextRequest) {
       department,
       declaration,
       hiddenByAdmin,
-      hiddenByUserUntil,
+      hiddenByUser,
       status,
       date: new Date(),
       created: new Date(),
@@ -86,12 +79,12 @@ export async function POST(req: NextRequest) {
     // Respond with the created paper
     return NextResponse.json(
       { message: "Paper created successfully", paper: savedPaper },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to create paper", details: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -107,7 +100,7 @@ export async function PUT(req: NextRequest) {
     if (!paperId) {
       return NextResponse.json(
         { error: "Paper ID is required for updating" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -133,7 +126,7 @@ export async function PUT(req: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to update paper", details: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -149,7 +142,7 @@ export async function DELETE(req: NextRequest) {
     if (!paperId) {
       return NextResponse.json(
         { error: "Paper ID is required for deletion" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -162,7 +155,7 @@ export async function DELETE(req: NextRequest) {
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to delete paper", details: error.message },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

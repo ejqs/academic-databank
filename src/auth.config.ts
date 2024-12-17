@@ -2,8 +2,6 @@
 import type { NextAuthConfig } from "next-auth";
 import Google from "next-auth/providers/google";
 import { allowPersonalEmails } from "@/flags";
-import connectDB from "@/util/connectDB";
-import User from "@/models/UserModel";
 
 export default {
   //   DO NOT ADD MORE PROVIDERS. See allowDangerousEmailAccountLinking below
@@ -64,19 +62,20 @@ export default {
       const personalEmailsFeature = await allowPersonalEmails();
       if (personalEmailsFeature) {
         try {
+          const baseUrl = process.env.BASE_URL || "http://localhost:3000";
           const response = await fetch(
-            `${
-              process.env.ACCOUNTS_CHECKPERSONALEMAILVALID_URL
-            }?personalEmail=${encodeURIComponent(profile.email)}`,
+            `${baseUrl}/api/user/checkPersonalEmailValid?personalEmail=${encodeURIComponent(
+              profile.email,
+            )}`,
             {
               method: "GET",
               headers: {
                 "Content-Type": "application/json",
               },
-            }
+            },
           );
           const data = await response.json();
-          console.log("User data:", data);
+          // console.log("User data:", data);
           return data; // Make sure this returns true or false based on your API response
         } catch (error) {
           console.error("Error:", error);

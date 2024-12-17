@@ -18,7 +18,8 @@ async function getFlagValue(key: string): Promise<any> {
     return cachedFlag.value;
   }
 
-  const response = await fetch(process.env.FEATURE_FLAGS_URL);
+  const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+  const response = await fetch(`${baseUrl}/api/getFeatureFlags`);
   const flags = await response.json();
   const value = flags[key];
 
