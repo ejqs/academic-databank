@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
-import Paper from "@/models/Paper";
+import { auth } from "@/auth";
 import { ensureDBConnection } from "@/lib/ensureDB";
+import Paper from "@/models/Paper";
 
-// Connect to the database before handling any request
+// Protect API Requests https://authjs.dev/getting-started/session-management/protecting
 
 // Handle GET requests to fetch papers
-export async function GET(req: NextRequest) {
+export const GET = auth(async function GET(req) {
+  if (!req.auth)
+    return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
   await ensureDBConnection();
 
   const { searchParams } = new URL(req.url);
@@ -31,10 +34,12 @@ export async function GET(req: NextRequest) {
       { status: 500 },
     );
   }
-}
+});
 
 // Handle POST requests to create a new paper
-export async function POST(req: NextRequest) {
+export const POST = auth(async function POST(req) {
+  if (!req.auth)
+    return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
   await ensureDBConnection();
 
   try {
@@ -87,10 +92,12 @@ export async function POST(req: NextRequest) {
       { status: 500 },
     );
   }
-}
+});
 
 // Handle PUT requests to update an existing paper
-export async function PUT(req: NextRequest) {
+export const PUT = auth(async function PUT(req) {
+  if (!req.auth)
+    return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
   await ensureDBConnection();
 
   try {
@@ -129,10 +136,12 @@ export async function PUT(req: NextRequest) {
       { status: 500 },
     );
   }
-}
+});
 
 // Handle DELETE requests to delete a paper
-export async function DELETE(req: NextRequest) {
+export const DELETE = auth(async function DELETE(req) {
+  if (!req.auth)
+    return NextResponse.json({ message: "Not authenticated" }, { status: 401 });
   await ensureDBConnection();
 
   try {
@@ -158,4 +167,4 @@ export async function DELETE(req: NextRequest) {
       { status: 500 },
     );
   }
-}
+});
