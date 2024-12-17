@@ -1,5 +1,5 @@
 import styles from "./Footer.module.css";
-import config from "@/config";
+import strings from "@/strings";
 
 export default function Footer() {
   return (
@@ -7,12 +7,12 @@ export default function Footer() {
       <footer className={styles.footer}>
         <div className={styles.container}>
           <div className={styles.item}>
-            ©{config.copyrightYear} {config.orgAcronym}
+            ©{strings.copyrightYear} {strings.orgAcronym}
           </div>
-          <div className={styles.item}>{config.aboutFooter}</div>
-          <div className={styles.item}>{config.securityFooter}</div>
-          <div className={styles.item}>{config.githubFooter}</div>
-          <div className={styles.item}>{config.contactFooter}</div>
+          <div className={styles.item}>{strings.aboutFooter}</div>
+          <div className={styles.item}>{strings.securityFooter}</div>
+          <div className={styles.item}>{strings.githubFooter}</div>
+          <div className={styles.item}>{strings.contactFooter}</div>
         </div>
       </footer>
     </>

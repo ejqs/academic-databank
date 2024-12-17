@@ -1,0 +1,3 @@
+[submodule "academic-databank.wiki"]
+	path = academic-databank.wiki
+	url = https://github.com/earlsab/academic-databank.wiki.git

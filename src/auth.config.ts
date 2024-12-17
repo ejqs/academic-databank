@@ -47,6 +47,7 @@ export default {
     //   Very very scuffed solution
     // TODO: Need way to migrate data to personal account and visa versa.
     // TODO: Check if I change datafields for profile here if it will be affected in above.
+
     async signIn({ profile }) {
       // Banned users; No Read/Write Access
       if (profile.permission_level === -1) {
@@ -84,6 +85,10 @@ export default {
       }
 
       return false;
+    },
+    authorized: async ({ auth }) => {
+      // Logged in users are authenticated, otherwise redirect to login page
+      return !!auth;
     },
   },
 } satisfies NextAuthConfig;

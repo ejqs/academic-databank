@@ -23,6 +23,12 @@
       "@app/*": ["./src/app/*"]
     }
   },
-  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "src/app/page.ts"
+  ],
   "exclude": ["node_modules"]
 }
