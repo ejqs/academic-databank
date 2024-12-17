@@ -1,4 +1,4 @@
-import dbConnect from "@/util/connectDB";
+import dbConnect from "@/util/dbConnect";
 
 export async function ensureDBConnection() {
   try {
