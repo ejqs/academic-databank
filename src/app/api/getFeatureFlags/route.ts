@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import dbConnect from "@/util/connectDB";
+import dbConnect from "@/util/dbConnect";
 import Flags from "@/models/Flags";
 
 export async function GET() {
