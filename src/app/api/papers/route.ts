@@ -63,7 +63,7 @@ export async function POST(req: NextRequest) {
       declaration,
       hiddenByAdmin,
       hiddenByUser,
-      status: 0,
+      status,
       date: new Date(),
       created: new Date(),
       lastModified: new Date(),
