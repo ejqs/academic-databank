@@ -49,8 +49,8 @@ const PapersList = () => {
     fetchPapers();
   }, []);
 
-  // if (loading) return <p>Loading papers...</p>;
-  // if (error) return <p>Error loading papers: {error}</p>;
+  if (loading) return <p>Loading papers...</p>;
+  if (error) return <p>Error loading papers: {error}</p>;
 
   return (
     <div>

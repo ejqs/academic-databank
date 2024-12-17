@@ -12,7 +12,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       {/* TODO: WARNING! remove surpressHydration before production. This was added to prevent popups that are caused by browser extensions */}
-      <body suppressHydrationWarning >
+      <body suppressHydrationWarning>
         <Header></Header>
         {children}
         <Footer></Footer>

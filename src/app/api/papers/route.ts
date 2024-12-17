@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
 
   const { searchParams } = new URL(req.url);
   const paperId = searchParams.get("id"); // Check if there's a paper ID provided in the query
-
+  console.log("🆔", paperId);
   try {
     if (paperId) {
       const paper = await Paper.findById(paperId);
