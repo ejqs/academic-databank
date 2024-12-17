@@ -62,9 +62,10 @@ export default {
       const personalEmailsFeature = await allowPersonalEmails();
       if (personalEmailsFeature) {
         try {
+          const baseUrl = process.env.BASE_URL || "http://localhost:3000";
           const response = await fetch(
-            `/api/user/checkPersonalEmailValid?personalEmail=${encodeURIComponent(
-              profile.email
+            `${baseUrl}/api/user/checkPersonalEmailValid?personalEmail=${encodeURIComponent(
+              profile.email,
             )}`,
             {
               method: "GET",
