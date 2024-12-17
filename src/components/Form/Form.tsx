@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { mutate } from "swr";
 
 interface FormData {
@@ -32,6 +32,8 @@ type Props = {
 };
 
 const Form = ({ formId, paperForm, forNewPaper = true }: Props) => {
+  const searchParams = useSearchParams();
+  const id = searchParams.get("id");
   const router = useRouter();
   const contentType = "application/json";
   const [errors, setErrors] = useState({});
@@ -53,7 +55,7 @@ const Form = ({ formId, paperForm, forNewPaper = true }: Props) => {
 
   /* The PUT method edits an existing entry in the mongodb database. */
   const putData = async (form: FormData) => {
-    const { id } = router.query;
+    // const { id } = router.query;
 
     try {
       const res = await fetch(`/api/papers/${id}`, {
