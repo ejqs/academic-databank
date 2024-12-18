@@ -13,6 +13,7 @@ export const GET = auth(async function GET(req) {
 
   const { searchParams } = new URL(req.url);
   const paperId = searchParams.get("id"); // Check if there's a paper ID provided in the query
+
   console.log("🆔", paperId);
   try {
     if (paperId) {
@@ -27,6 +28,7 @@ export const GET = auth(async function GET(req) {
     }
 
     const papers = await Paper.find({});
+
     return NextResponse.json(papers);
   } catch (error) {
     return NextResponse.json(
@@ -43,32 +45,11 @@ export const POST = auth(async function POST(req) {
   await ensureDBConnection();
 
   try {
-    // Parse request body to extract paper fields
-    const {
-      title,
-      authors,
-      abstract,
-      tags,
-      adminTags,
-      department,
-      declaration,
-      hiddenByAdmin,
-      hiddenByUser,
-      status,
-    } = await req.json();
+    const data = await req.json();
 
     // Create a new Paper instance
     const newPaper = new Paper({
-      title,
-      authors,
-      abstract,
-      tags,
-      adminTags,
-      department,
-      declaration,
-      hiddenByAdmin,
-      hiddenByUser,
-      status,
+      ...data,
       date: new Date(),
       created: new Date(),
       lastModified: new Date(),

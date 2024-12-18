@@ -21,7 +21,7 @@ export interface IPaper extends Document {
   created: Date; // Date the paper was created
   lastModified: Date; // Date the paper was last modified
   hiddenByAdmin: boolean; // Controls if paper is hidden by admin
-  hiddenByUserUntil?: number; // Unix timestamp, optional
+  hiddenByUser: boolean; // Unix timestamp, optional
   declaration: IDeclaration; // Declaration fields
   status?: string; // Status, admin accessible
   meta: {
@@ -41,7 +41,7 @@ const PaperSchema = new Schema<IPaper>(
         validator: function (emails: string[]) {
           // Validate email format
           return emails.every((email) =>
-            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
           );
         },
         message: "Authors must be valid email addresses.",
@@ -66,7 +66,7 @@ const PaperSchema = new Schema<IPaper>(
     created: { type: Date, default: Date.now },
     lastModified: { type: Date, default: Date.now },
     hiddenByAdmin: { type: Boolean, default: false },
-    hiddenByUserUntil: { type: Number }, // Unix timestamp, can be null if not hidden by user
+    hiddenByUser: { type: Number }, // Unix timestamp, can be null if not hidden by user
     declaration: {
       // TODO: Change this to be required
       "authors-awareness": { type: Boolean },
@@ -92,7 +92,7 @@ const PaperSchema = new Schema<IPaper>(
       favorite: { type: Number, default: 0 },
     },
   },
-  { collection: "papers" }
+  { collection: "papers" },
 );
 
 PaperSchema.pre("save", function (next) {
