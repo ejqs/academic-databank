@@ -1,7 +1,7 @@
 import { ProjectMetadata } from "@/util/types";
 import styles from "./Footer.module.css";
 
-export default function Footer() {
+export function Footer() {
   return (
     <>
       <footer className={styles.footer}>

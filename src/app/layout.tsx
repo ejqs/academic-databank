@@ -1,6 +1,5 @@
 import "../globals.css";
-import Header from "@components/Header/Header";
-import Footer from "@components/Footer/Footer";
+import { Header, Footer, PageStatus } from "@/components/index";
 import { ProjectMetadata } from "@/util/types";
 
 export const metadata = {
@@ -12,10 +11,12 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       {/* TODO: WARNING! remove surpressHydration before production. This was added to prevent popups that are caused by browser extensions */}
-      <body suppressHydrationWarning>
-        <Header></Header>
+      {/* <body className="tw-bg-background-100" suppressHydrationWarning> */}
+      <body className="tw-bg-background-100">
+        <PageStatus />
+        <Header />
         {children}
-        <Footer></Footer>
+        <Footer />
       </body>
     </html>
   );

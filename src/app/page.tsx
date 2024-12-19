@@ -1,5 +1,6 @@
-import SignIn from "@components/sign-in";
-import Browse from "@components/Browse/Browse";
+// import SignIn from "@components/sign-in";
+import { Browse, SignIn } from "@components/index";
+// import { Browse, SignIn } from "@components";
 import { auth } from "@/auth";
 import { ProjectMetadata } from "@/util/types";
 
