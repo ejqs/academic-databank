@@ -1,20 +1,17 @@
-import { ProjectMetadata } from "@/util/types";
-import styles from "./Footer.module.css";
+import { ProjectMetadataFooter } from "@/util/types";
 
-export default function Footer() {
+export function Footer() {
   return (
-    <>
-      <footer className={styles.footer}>
-        <div className={styles.container}>
-          <div className={styles.item}>
-            ©{ProjectMetadata.copyrightYear} {ProjectMetadata.orgAcronym}
-          </div>
-          <div className={styles.item}>{ProjectMetadata.aboutFooter}</div>
-          <div className={styles.item}>{ProjectMetadata.securityFooter}</div>
-          <div className={styles.item}>{ProjectMetadata.githubFooter}</div>
-          <div className={styles.item}>{ProjectMetadata.contactFooter}</div>
-        </div>
-      </footer>
-    </>
+    <footer className="tw-bg-gray-800 tw-text-white tw-text-center tw-py-2 tw-absolute tw-bottom-0 tw-right-0 tw-left-0 tw-ml-auto tw-mr-auto tw-w-full tw-items-center">
+      <div className="tw-ml-auto tw-mr-auto tw-flex tw-justify-around tw-p-2 tw-m-1 tw-w-3/6 tw-font-semibold tw-gap-2 tw-min-w-fit">
+        {Object.values(ProjectMetadataFooter).map((setting) => {
+          return (
+            <div key={setting} className="tw-text-xs tw-py-5 tw-w-14">
+              <div className="clickable-basic">{setting}</div>
+            </div>
+          );
+        })}
+      </div>
+    </footer>
   );
 }
