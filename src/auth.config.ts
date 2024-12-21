@@ -63,6 +63,7 @@ export default {
       if (personalEmailsFeature) {
         try {
           const baseUrl = process.env.BASE_URL || "http://localhost:3000";
+          // TODO: !! Move as server component. Implementation is dangerous as API is accessible to anyone.
           const response = await fetch(
             `${baseUrl}/api/user/checkPersonalEmailValid?personalEmail=${encodeURIComponent(
               profile.email,
