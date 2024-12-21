@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/auth";
 import { ensureDBConnection } from "@/lib/ensureDB";
-import Paper from "@/models/Paper";
+import Paper from "@/features/papers/server/model/Paper";
 
 // Protect API Requests https://authjs.dev/getting-started/session-management/protecting
 

@@ -3,7 +3,7 @@ import Browse from "@components/Browse/Browse";
 import { auth } from "@/auth";
 import { ProjectMetadata } from "@/util/types";
 import { ensureDBConnection } from "@/lib/ensureDB";
-import Paper from "@/models/Paper";
+import Paper from "@/features/papers/server/model/Paper";
 
 export default async function Home() {
   const session = await auth();

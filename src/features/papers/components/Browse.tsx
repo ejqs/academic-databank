@@ -1,6 +1,6 @@
 import { ensureDBConnection } from "@/lib/ensureDB";
-import Paper from "@/models/Paper";
-import { IPaper } from "@/models/Paper";
+import Paper from "@/features/papers/server/model/Paper";
+import { IPaper } from "@/features/papers/server/model/Paper";
 // import PapersList from "./PapersList";
 
 export default async function Browse() {
