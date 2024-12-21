@@ -10,4 +10,18 @@ module.exports = {
   },
   plugins: [],
   prefix: "tw-",
+  theme: {
+    colors: {
+      text: "var(--text)",
+      background: "var(--background)",
+      primary: "var(--primary)",
+      secondary: "var(--secondary)",
+      accent: "var(--accent)",
+    },
+    extend: {
+      blur: {
+        xs: "1px",
+      },
+    },
+  },
 };

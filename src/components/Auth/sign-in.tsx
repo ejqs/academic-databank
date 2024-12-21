@@ -1,9 +1,11 @@
 import { signIn } from "@/auth";
 import React from "react";
-export default function SignIn({
-  text = "Signin with Google",
+export function SignIn({
+  text = "Sign-in with Google",
+  className = "",
 }: {
   text?: string;
+  className?: string;
 }) {
   return (
     <form
@@ -12,7 +14,9 @@ export default function SignIn({
         await signIn("google");
       }}
     >
-      <button type="submit">{text}</button>
+      <button type="submit" className={className}>
+        {text}
+      </button>
     </form>
   );
 }
