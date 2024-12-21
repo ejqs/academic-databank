@@ -1,5 +1,7 @@
-import { PapersList } from "./PapersList";
+import PapersList from "./PapersList";
 
-export const Browse = () => {
+const Browse = () => {
   return <PapersList />;
 };
+
+export default Browse;

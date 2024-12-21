@@ -1,44 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@layer base {
-  :root {
-    --text: #1a0f0f;
-    --background: #f1e9e9;
-    --primary: #222020;
-    --secondary: #7d7b78;
-    --accent: #c8c8c0;
-  }
-  .dark {
-    --text: #f0e5e5;
-    --background: #160e0e;
-    --primary: #dfdddd;
-    --secondary: #878582;
-    --accent: #3f3f37;
-  }
-}
-
-@layer utilities {
-  .header-item {
-    @apply hover:tw-scale-105 hover:tw-font-semibold tw-transition-all tw-duration-500 tw-ease-out;
-  }
-  .fake-glow-accent {
-    @apply before:tw-content-[''] before:tw-absolute before:tw-inset-0 before:tw-bg-accent before:tw-blur-md before:tw-scale-105 before:tw-z-[-1];
-  }
-  .clickable-basic {
-    @apply hover:tw-cursor-pointer hover:tw-scale-105 tw-duration-200 tw-ease-out;
-  }
-}
 
 body {
-  background-color: var(--background);
+  background-color: rgb(238, 238, 238);
 }
 * {
   font-family: monospace;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  color: var(--text);
 }
 
 button {

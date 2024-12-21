@@ -18,7 +18,7 @@ interface Paper {
   hiddenByUserUntil?: number;
 }
 
-export const PapersList = () => {
+const PapersList = () => {
   const [papers, setPapers] = useState<Paper[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -96,3 +96,5 @@ export const PapersList = () => {
     </div>
   );
 };
+
+export default PapersList;

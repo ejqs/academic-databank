@@ -3,17 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "generate-barrels": "barrelsby --delete -d src/components"
+    "lint": "next lint"
   },
   "dependencies": {
     "@auth/mongodb-adapter": "^3.4.2",
     "@vercel/flags": "^2.6.0",
-    "barrelsby": "^2.8.1",
-    "cross-env": "^7.0.3",
     "jotai": "^2.9.1",
     "mongodb": "^6.8.0",
     "mongoose": "^8.5.2",

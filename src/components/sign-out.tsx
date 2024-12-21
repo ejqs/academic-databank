@@ -1,7 +1,7 @@
 import { signOut } from "@/auth";
 import React from "react";
 
-export function SignOut({ className = "" }: { className?: string }) {
+export default function SignOut() {
   return (
     <form
       action={async () => {
@@ -9,9 +9,7 @@ export function SignOut({ className = "" }: { className?: string }) {
         await signOut();
       }}
     >
-      <button type="submit" className={className}>
-        Sign Out
-      </button>
+      <button type="submit">Sign Out</button>
     </form>
   );
 }

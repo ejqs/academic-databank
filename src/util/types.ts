@@ -7,15 +7,13 @@ export enum ProjectMetadata {
   orgName = "Silliman University Student Government",
   appName = "SUSG Academic Databank",
   appDescription = "A databank for student made academic papers.",
-
-  // generic homepage strings
-  homepageAcessible = "Accessible only through emails ending with @su.edu.ph",
-}
-
-export enum ProjectMetadataFooter {
+  // generic footer strings
   copyrightYear = "2024",
   aboutFooter = "About",
   securityFooter = "Security",
   githubFooter = "Github",
   contactFooter = "Contact",
+
+  // generic homepage strings
+  homepageAcessible = "Accessible only through emails ending with @su.edu.ph",
 }
