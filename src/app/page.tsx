@@ -1,6 +1,5 @@
 // import SignIn from "@components/sign-in";
 import { SignIn } from "@components/index";
-import Browse from "@/features/papers/components/Browse";
 import { auth } from "@/auth";
 import { ProjectMetadata } from "@/util/types";
 import { ensureDBConnection } from "@/lib/ensureDB";
