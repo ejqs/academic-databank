@@ -1,4 +1,4 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema, PaginateModel } from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
 
 // Define the PaperData interface
@@ -61,16 +61,18 @@ const PaperSchema = new Schema<PaperDocument>(
 PaperSchema.plugin(mongoosePaginate);
 
 // Create and export the Paper model
-const Paper =
-  mongoose.models.Paper ||
-  mongoose.model<PaperDocument, mongoose.PaginateModel<PaperDocument>>(
-    "Paper",
-    PaperSchema,
-    "papers",
-  );
+const Paper = mongoose.model<
+  PaperDocument,
+  mongoose.PaginateModel<PaperDocument>
+>(
+  "Paper",
+  PaperSchema,
+  "papers", // looks to be responsible to accessing the collections in mongodb
+);
 
 // const model = mongoose.model<
 //   InstitutionDocument,
 //   mongoose.PaginateModel<InstitutionDocument>
 // >("Institutions", institutionSchema, "institutions");
+
 export default Paper;

@@ -31,12 +31,13 @@ export default async function BrowsePage({
   } = await searchParams;
 
   const options = {
-    page: page,
-    limit: limit,
+    page: Number(page),
+    limit: Number(limit),
   };
 
   console.log(options);
   // Has error for some reason but it works. 🤷‍♂️
+
   const papers = await Paper.paginate({}, options);
 
   // TODO: Remove console.log
