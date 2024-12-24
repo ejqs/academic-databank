@@ -1,10 +1,11 @@
 // import SignIn from "@components/sign-in";
-import { Browse, SignIn } from "@components/index";
-// import { Browse, SignIn } from "@components";
+import { SignIn } from "@components/index";
+import Browse from "@/features/papers/components/Browse";
 import { auth } from "@/auth";
 import { ProjectMetadata } from "@/util/types";
 import { ensureDBConnection } from "@/lib/ensureDB";
 import Paper from "@/features/papers/server/model/Paper";
+import { redirect } from "next/navigation";
 
 export default async function Home() {
   const session = await auth();
@@ -16,8 +17,6 @@ export default async function Home() {
         <SignIn className="tw-mt-3 clickable-basic" text="Continue" />
       </div>
     );
-
-  await ensureDBConnection();
-  const papers = await Paper.find({});
-  return <Browse />;
+  // example https://www.google.com/search?q=test&num=10
+  redirect("/browse?limit=10&page=1");
 }

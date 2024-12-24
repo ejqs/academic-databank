@@ -1,92 +1,54 @@
-import mongoose, { Document, Schema, Model } from "mongoose";
+import mongoose, { Document, Schema } from "mongoose";
+import mongoosePaginate from "mongoose-paginate-v2";
 
-// Interface for the declarations
-interface IDeclaration {
-  "authors-awareness": boolean;
-  "access-link"?: string;
-  contactable: boolean;
-  email?: string; // Only visible if contactable is true
-  "urec-approved"?: boolean;
-}
-
-// Interface for the Paper Document
-export interface IPaper extends Document {
+// Define the PaperData interface
+interface PaperData {
   title: string;
-  authors: string[]; // List of email addresses
+  authors: string[];
   abstract: string;
-  tags: string[]; // Tags, with validation to reject user input starting with 'admin_'
-  adminTags: string[]; // Admin tags with the format `admin_`, `HEX COLOR`, `_Text`
+  tags: string[];
   department: string;
-  date: Date; // Date submitted/published
-  created: Date; // Date the paper was created
-  lastModified: Date; // Date the paper was last modified
-  hiddenByAdmin: boolean; // Controls if paper is hidden by admin
-  hiddenByUser: boolean; // Unix timestamp, optional
-  declaration: IDeclaration; // Declaration fields
-  status?: string; // Status, admin accessible
+  date: Date;
+  created: Date;
+  lastModified: Date;
+  hiddenByAdmin: boolean;
+  hiddenByUser?: number; // Unix timestamp, can be null if not hidden by user
+  declaration: {
+    signed: boolean;
+    dateSigned: Date;
+  };
+  status: "draft" | "submitted" | "approved" | "rejected";
   meta: {
     upvotes: number;
     favorite: number;
   };
 }
 
-// Schema for the Paper Document
-const PaperSchema = new Schema<IPaper>(
+// Define the PaperDocument interface
+interface PaperDocument extends Document, PaperData {}
+
+// Define the PaperSchema
+const PaperSchema = new Schema<PaperDocument>(
   {
     title: { type: String, required: true },
-    authors: {
-      type: [String],
-      required: true,
-      validate: {
-        validator: function (emails: string[]) {
-          // Validate email format
-          return emails.every((email) =>
-            /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
-          );
-        },
-        message: "Authors must be valid email addresses.",
-      },
-    },
+    authors: { type: [String], required: true },
     abstract: { type: String, required: true },
-    tags: {
-      type: [String],
-      validate: {
-        validator: function (tags: string[]) {
-          // Reject tags starting with 'admin_'
-          return tags.every((tag) => !/^admin_/.test(tag));
-        },
-        message: 'Tags cannot start with "admin_".',
-      },
-    },
-    adminTags: {
-      type: [String], // Admin tags, structured format enforced in the UI
-    },
+    tags: { type: [String], required: true },
     department: { type: String, required: true },
-    date: { type: Date, default: Date.now },
+    date: { type: Date, required: true },
     created: { type: Date, default: Date.now },
     lastModified: { type: Date, default: Date.now },
     hiddenByAdmin: { type: Boolean, default: false },
     hiddenByUser: { type: Number }, // Unix timestamp, can be null if not hidden by user
     declaration: {
-      // TODO: Change this to be required
-      "authors-awareness": { type: Boolean },
-      "access-link": { type: String },
-      contactable: { type: Boolean },
-      email: {
-        type: String,
-        validate: {
-          validator: (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email),
-          message: "Invalid email",
-        },
-      }, // Email only visible if contactable
-      "urec-approved": { type: Boolean },
-      // Allows flexible schema upgrades without breaking compatibility
+      signed: { type: Boolean, required: true },
+      dateSigned: { type: Date, required: true },
     },
     status: {
       type: String,
       enum: ["draft", "submitted", "approved", "rejected"],
       default: "draft",
-    }, // Can be extended
+    },
     meta: {
       upvotes: { type: Number, default: 0 },
       favorite: { type: Number, default: 0 },
@@ -95,13 +57,20 @@ const PaperSchema = new Schema<IPaper>(
   { collection: "papers" },
 );
 
-PaperSchema.pre("save", function (next) {
-  // Automatically update the last modified date before saving
-  this.lastModified = new Date();
-  next();
-});
+// Apply the mongoose-paginate-v2 plugin to the schema
+PaperSchema.plugin(mongoosePaginate);
 
-const Paper: Model<IPaper> =
-  mongoose.models.Paper || mongoose.model<IPaper>("Paper", PaperSchema);
+// Create and export the Paper model
+const Paper =
+  mongoose.models.Paper ||
+  mongoose.model<PaperDocument, mongoose.PaginateModel<PaperDocument>>(
+    "Paper",
+    PaperSchema,
+    "papers",
+  );
 
+// const model = mongoose.model<
+//   InstitutionDocument,
+//   mongoose.PaginateModel<InstitutionDocument>
+// >("Institutions", institutionSchema, "institutions");
 export default Paper;
