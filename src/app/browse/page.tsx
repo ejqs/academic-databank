@@ -48,7 +48,7 @@ export default async function BrowsePage({
     <>
       {papers?.docs.map((paper) => (
         <Link key={paper._id.toString()} href={`paper/${paper._id.toString()}`}>
-          <li key={paper._id} style={{ marginBottom: "20px" }}>
+          <li key={paper._id.toString()} style={{ marginBottom: "20px" }}>
             <h2>{paper.title}</h2>
             <p>
               <strong>Authors:</strong> {paper.authors.join(", ")}
