@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/util/dbConnect";
-import User from "@/models/User";
+import User from "@/features/users/server/models/User";
 
 export async function GET(req: NextRequest) {
   await dbConnect();
@@ -19,7 +19,7 @@ export async function GET(req: NextRequest) {
     } catch (error) {
       return NextResponse.json(
         { error: "Failed to fetch user", details: error.message },
-        { status: 500 }
+        { status: 500 },
       );
     }
   } else {
