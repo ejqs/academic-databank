@@ -44,7 +44,7 @@ const UserSchema = new Schema<IUser>(
     iat: { type: Number, required: true },
     exp: { type: Number, required: true },
   },
-  { collection: "users" },
+  { collection: "users" }
 );
 const User: Model<IUser> =
   mongoose.models.User || mongoose.model<IUser>("User", UserSchema);
