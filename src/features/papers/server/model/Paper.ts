@@ -61,14 +61,13 @@ const PaperSchema = new Schema<PaperDocument>(
 PaperSchema.plugin(mongoosePaginate);
 
 // Create and export the Paper model
-const Paper = mongoose.model<
-  PaperDocument,
-  mongoose.PaginateModel<PaperDocument>
->(
-  "Paper",
-  PaperSchema,
-  "papers", // looks to be responsible to accessing the collections in mongodb
-);
+const Paper =
+  (mongoose.models.Paper as mongoose.PaginateModel<PaperDocument>) ||
+  mongoose.model<PaperDocument, mongoose.PaginateModel<PaperDocument>>(
+    "Paper",
+    PaperSchema,
+    "papers", // looks to be responsible to accessing the collections in mongodb
+  );
 
 // const model = mongoose.model<
 //   InstitutionDocument,
