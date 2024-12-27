@@ -21,6 +21,14 @@ export async function createPaper(
 
   if (!session?.user) return null;
 
+  // Delete keys with empty values
+  // https://stackoverflow.com/a/74104178 but modified with gpt4o
+  for (const key of formData.keys()) {
+    if (!formData.get(key) || formData.get(key) === "") {
+      formData.delete(key);
+    }
+  }
+
   console.log(formData);
   const schema = z.object({
     status: z.string(),
@@ -29,25 +37,25 @@ export async function createPaper(
     abstract: z.string().min(1),
     department: z.string().min(1),
     urecApproved: z.string(),
+    authorsAwareness: z.string(),
     linkToPaper: z.string().url().optional(),
     contactable: z.string().optional(),
     contactEmail: z.string().email().optional(),
     visibility: z.string(),
-    tags: z.string().optional(),
   });
 
-  const parse = schema.safeParse({
-    status: formData.get("status"),
-    title: formData.get("title"),
-    authors: formData.get("authors"),
-    abstract: formData.get("abstract"),
-    department: formData.get("department"),
-    urecApproved: formData.get("urecApproved"),
-    linkToPaper: formData.get("linkToPaper"),
-    contactable: formData.get("contactable"),
-    contactEmail: formData.get("contactEmail"),
-    visibility: formData.get("visibility"),
-    tags: formData.get("tags"),
+  // Random rant. Debugging why only one tag shows up even tho multiple was
+  // inputted was a nightmare and took me the entire evening.
+  // The solution I came up with is separating the schema of the tags
+  // so that it can be processed separately.
+  const tagSchema = z.object({
+    tags: z.union([z.string().optional(), z.string().array().optional()]),
+  });
+
+  const formDataEntries = Object.fromEntries(formData.entries());
+  const parse = schema.safeParse(formDataEntries);
+  const parseTags = tagSchema.safeParse({
+    tags: formData.getAll("tags"),
   });
 
   if (!parse.success) {
@@ -58,28 +66,26 @@ export async function createPaper(
     const res = await Paper.create({
       metadata: {
         owner: session.user.email,
-        tags: parse.data.tags,
         date: new Date(),
-        created: new Date(),
         lastModified: new Date(),
         hiddenByAdmin: false,
-        upvotes: 0,
-        favorite: 0,
         visibility: parse.data.visibility,
       },
       basic: {
+        tags: parseTags.data.tags,
+        created: new Date(),
         title: parse.data.title,
-        authors: parse.data.authors.split(","),
+        authors: parse.data.authors.split(","), // FIXME: Need better pasing method
         abstract: parse.data.abstract,
         department: parse.data.department,
       },
       selfDeclaration: {
         urecApproved: parse.data.urecApproved,
-        authorsAwareness: true,
+        authorsAwareness: parse.data.authorsAwareness === "on" ? true : false,
         linkToPaper: parse.data.linkToPaper,
         contactable: parse.data.contactable === "on" ? true : false,
         contactEmail:
-          parse.data.contactable === "true" ? parse.data.contactEmail : "",
+          parse.data.contactable === "on" ? parse.data.contactEmail : "",
       },
     });
     console.log(res._id.toString());

@@ -40,7 +40,7 @@ export default async function BrowsePage({
   // Has error for some reason but it works. 🤷‍♂️
 
   const papers = await Paper.paginate(
-    { "metadata.visibility": { $in: ["public", "public-boosted"] } },
+    { "metadata.visibility": { $in: ["public"] } },
     options,
   );
 
@@ -49,7 +49,13 @@ export default async function BrowsePage({
 
   return (
     <>
-      <BrowseCards papers></BrowseCards>
+      <BrowseCards
+        papers={papers?.docs.map((paper: any) => ({
+          ...paper.basic.toObject(),
+          _id: paper._id.toString(),
+        }))}
+      ></BrowseCards>
+
       <BrowsePageController
         CurrentPage={papers.page}
         CanNextPage={papers.hasNextPage}

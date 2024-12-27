@@ -1,5 +1,5 @@
 "use client";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { createPaper } from "../../server/actions";
 import Select from "react-select";
@@ -20,6 +20,7 @@ const initialState = {
 
 export function AddForm({ Tags }) {
   const [state, formAction] = useActionState(createPaper, initialState);
+  const [contactable, setContactable] = useState(false);
 
   const departmentOptions = Object.values(Departments).map((department) => ({
     value: department,
@@ -98,10 +99,19 @@ export function AddForm({ Tags }) {
       <input type="url" id="linkToPaper" name="linkToPaper" />
 
       <label htmlFor="contactable">Contactable</label>
-      <input type="checkbox" id="contactable" name="contactable" />
+      <input
+        type="checkbox"
+        id="contactable"
+        name="contactable"
+        onChange={(e) => setContactable(e.target.checked)}
+      />
 
-      <label htmlFor="contactEmail">Contact Email</label>
-      <input type="email" id="contactEmail" name="contactEmail" />
+      {contactable && (
+        <>
+          <label htmlFor="contactEmail">Contact Email</label>
+          <input type="email" id="contactEmail" name="contactEmail" required />
+        </>
+      )}
 
       <label htmlFor="visibility">Visibility</label>
       <Select
@@ -121,4 +131,7 @@ export function AddForm({ Tags }) {
       </p>
     </form>
   );
+}
+function setState(arg0: string): [any, any] {
+  throw new Error("Function not implemented.");
 }
