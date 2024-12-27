@@ -1,5 +1,5 @@
 "use client";
-import { useActionState, useState } from "react";
+import { useActionState } from "react";
 import { useFormStatus } from "react-dom";
 import { createPaper } from "../../server/actions";
 import Select from "react-select";
@@ -10,16 +10,15 @@ import {
   URECStatus,
   Visibility,
 } from "../../server/enums";
+import { redirect } from "next/navigation";
 
 // https://github.com/vercel/next.js/blob/canary/examples/next-forms/app/add-form.tsx
 const initialState = {
   message: "",
+  redirect: "",
 };
 
 export function AddForm({ Tags }) {
-  const [step, setStep] = useState(1);
-  const [formState, setFormState] = useState({});
-
   const [state, formAction] = useActionState(createPaper, initialState);
 
   const departmentOptions = Object.values(Departments).map((department) => ({
@@ -42,27 +41,20 @@ export function AddForm({ Tags }) {
     label: visibility,
   }));
 
-  function SubmitButton({ type }) {
+  function SubmitButton() {
     const { pending } = useFormStatus();
 
-    if (type === "next") {
-      return (
-        <button
-          type="submit"
-          onClick={() => setStep(step + 1)}
-          aria-disabled={pending}
-        >
-          Next
-        </button>
-      );
-    } else if (type === "submit") {
-      return (
-        <button type="submit" aria-disabled={pending}>
-          Add
-        </button>
-      );
+    if (state.redirect != "") {
+      redirect(state.redirect);
     }
+
+    return (
+      <button type="submit" disabled={pending} aria-disabled={pending}>
+        {pending ? "Submitting..." : "Submit"}
+      </button>
+    );
   }
+
   // TODO: Make it two parts
   return (
     <form action={formAction}>
@@ -102,8 +94,8 @@ export function AddForm({ Tags }) {
         required
       />
 
-      <label htmlFor="linkToPaper">Link to Paper</label>
-      <input type="url" id="linkToPaper" name="linkToPaper" required />
+      <label htmlFor="linkToPaper">Link to Paper (optional)</label>
+      <input type="url" id="linkToPaper" name="linkToPaper" />
 
       <label htmlFor="contactable">Contactable</label>
       <input type="checkbox" id="contactable" name="contactable" />
@@ -113,7 +105,6 @@ export function AddForm({ Tags }) {
 
       <label htmlFor="visibility">Visibility</label>
       <Select
-        defaultInputValue={"private"}
         id="visibility"
         name="visibility"
         options={visibilityOptions}
@@ -123,7 +114,7 @@ export function AddForm({ Tags }) {
       <label htmlFor="visibility">Tags</label>
       <CreatableSelect id="tags" name="tags" options={Tags} isMulti />
 
-      <SubmitButton type="submit" />
+      <SubmitButton />
 
       <p aria-live="polite" className="sr-only" role="status">
         {state?.message}

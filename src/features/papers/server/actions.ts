@@ -4,15 +4,23 @@ import { revalidatePath } from "next/cache";
 
 import { z } from "zod";
 import Paper from "./model/Paper";
+import { auth } from "@/auth";
+import { redirect } from "next/navigation";
+import { ensureDBConnection } from "@/lib/ensureDB";
 
 // Actions.ts Example https://github.com/vercel/next.js/blob/canary/examples/next-forms/app/actions.ts
 
 export async function createPaper(
-  previousState: { message: String },
+  previousState: { message: string; redirect: string },
   formData: FormData,
-): Promise<{ message: string }> {
+): Promise<{ message: string; redirect: string }> {
   // TODO: Allow status for drafts, published papoer. Do not require all fields to save draft.
   // Check all fields to change status from draft to publish
+  await ensureDBConnection();
+  const session = await auth();
+
+  if (!session?.user) return null;
+
   console.log(formData);
   const schema = z.object({
     status: z.string(),
@@ -21,7 +29,7 @@ export async function createPaper(
     abstract: z.string().min(1),
     department: z.string().min(1),
     urecApproved: z.string(),
-    linkToPaper: z.string().url(),
+    linkToPaper: z.string().url().optional(),
     contactable: z.string().optional(),
     contactEmail: z.string().email().optional(),
     visibility: z.string(),
@@ -43,13 +51,14 @@ export async function createPaper(
   });
 
   if (!parse.success) {
-    return { message: "Failed to create todo" };
+    return { message: `Parsing Error ${parse.error}`, redirect: "" };
   }
 
   try {
-    await Paper.create({
+    const res = await Paper.create({
       metadata: {
-        tags: parse.data.tags ? parse.data.tags : [],
+        owner: session.user.email,
+        tags: parse.data.tags,
         date: new Date(),
         created: new Date(),
         lastModified: new Date(),
@@ -73,10 +82,15 @@ export async function createPaper(
           parse.data.contactable === "true" ? parse.data.contactEmail : "",
       },
     });
+    console.log(res._id.toString());
     revalidatePath("/");
-    return { message: `Added paper: ${parse.data.title}` };
+
+    return {
+      message: `Added paper: ${parse.data.title}.`,
+      redirect: `/paper/${res._id.toString()}`,
+    };
   } catch (e) {
-    return { message: `Failed to create paper. ${e}` };
+    return { message: `Failed to create paper. ${e}`, redirect: "" };
   }
 }
 export async function deletePaper() {}

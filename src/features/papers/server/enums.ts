@@ -4,8 +4,6 @@ export enum Visibility {
   "private" = "private", // Won't show up anywhere
   "unlisted" = "unlisted", // Won't show up in browse
   "public" = "public", // Shows up in browse
-  // TODO: public-boosted for consideration
-  "public-boosted" = "public-boosted", // For future expansion; Shows up in homepage; boosting visibility might allow for a homepage discovery feature
 }
 
 export enum Status {

@@ -3,6 +3,7 @@ import Paper from "@/features/papers/server/model/Paper";
 
 import Link from "next/link";
 import BrowsePageController from "@/features/papers/components/BrowsePageController";
+import BrowseCards from "@/features/papers/components/BrowseList";
 
 // import { IPaper } from "@/features/papers/server/model/Paper";
 // https://nextjs.org/docs/app/building-your-application/data-fetching/fetching
@@ -45,17 +46,10 @@ export default async function BrowsePage({
 
   // TODO: Remove console.log
   console.log(papers);
-  // console.log(err);
 
   return (
     <>
-      {papers?.docs.map((paper) => (
-        <Link key={paper._id.toString()} href={`paper/${paper._id.toString()}`}>
-          <li key={paper._id.toString()} style={{ marginBottom: "20px" }}>
-            <h2>{paper.basic.title}</h2>
-          </li>
-        </Link>
-      ))}
+      <BrowseCards papers></BrowseCards>
       <BrowsePageController
         CurrentPage={papers.page}
         CanNextPage={papers.hasNextPage}

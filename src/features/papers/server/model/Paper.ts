@@ -5,6 +5,7 @@ import { Departments, URECStatus, Visibility } from "../enums";
 // Define the PaperData interface
 interface PaperData {
   metadata: {
+    owner: string;
     tags: string[];
     date: Date; // date submitted or finished (?)
     created: Date;
@@ -37,6 +38,7 @@ interface PaperDocument extends Document, PaperData {}
 const PaperSchema = new Schema<PaperDocument>(
   {
     metadata: {
+      owner: { type: String, required: true },
       tags: { type: [String], required: false }, // user inputted
       date: { type: Date, required: true },
       created: { type: Date, default: Date.now },
