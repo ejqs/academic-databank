@@ -45,3 +45,12 @@ button {
   border: none;
   text-decoration: underline;
 }
+
+/* AI Generated CSS */
+input,
+textarea,
+select,
+button {
+  display: block;
+  margin-bottom: 1rem;
+}

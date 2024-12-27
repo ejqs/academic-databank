@@ -1,26 +1,34 @@
 import mongoose, { Document, Schema, PaginateModel } from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
+import { Departments, URECStatus, Visibility } from "../enums";
 
 // Define the PaperData interface
 interface PaperData {
-  title: string;
-  authors: string[];
-  abstract: string;
-  tags: string[];
-  department: string;
-  date: Date;
-  created: Date;
-  lastModified: Date;
-  hiddenByAdmin: boolean;
-  hiddenByUser?: number; // Unix timestamp, can be null if not hidden by user
-  declaration: {
-    signed: boolean;
-    dateSigned: Date;
+  metadata: {
+    owner: string;
+    rankingBias: number;
+    date: Date; // date submitted or finished (?)
+    lastModified: Date;
+    hiddenByAdmin: boolean; // non overrideable visibility
+    favoriteCount: number;
+    visibility: String;
   };
-  status: "draft" | "submitted" | "approved" | "rejected";
-  meta: {
+  basic: {
+    tags: string[];
+    created: Date;
+    title: string;
+    authors: string[];
+    abstract: string;
+    department: Departments;
     upvotes: number;
-    favorite: number;
+  };
+
+  selfDeclaration: {
+    urecApproved: URECStatus;
+    authorsAwareness: boolean;
+    linkToPaper: string;
+    contactable: boolean;
+    contactEmail: string;
   };
 }
 
@@ -30,28 +38,39 @@ interface PaperDocument extends Document, PaperData {}
 // Define the PaperSchema
 const PaperSchema = new Schema<PaperDocument>(
   {
-    title: { type: String, required: true },
-    authors: { type: [String], required: true },
-    abstract: { type: String, required: true },
-    tags: { type: [String], required: true },
-    department: { type: String, required: true },
-    date: { type: Date, required: true },
-    created: { type: Date, default: Date.now },
-    lastModified: { type: Date, default: Date.now },
-    hiddenByAdmin: { type: Boolean, default: false },
-    hiddenByUser: { type: Number }, // Unix timestamp, can be null if not hidden by user
-    declaration: {
-      signed: { type: Boolean, required: true },
-      dateSigned: { type: Date, required: true },
+    metadata: {
+      owner: { type: String, required: true },
+      rankingBias: { type: Number, default: 0 },
+      date: { type: Date, required: true }, // user inputted
+      lastModified: { type: Date, default: Date.now },
+      hiddenByAdmin: { type: Boolean, default: false },
+      favoriteCount: { type: Number, default: 0 },
+      visibility: {
+        // user inputted
+        type: String,
+        enum: Object.values(Visibility),
+        default: "private",
+      },
     },
-    status: {
-      type: String,
-      enum: ["draft", "submitted", "approved", "rejected"],
-      default: "draft",
-    },
-    meta: {
+    basic: {
+      tags: { type: [String], required: false }, // user inputted
+      created: { type: Date, default: Date.now },
+      title: { type: String, required: true },
+      authors: { type: [String], required: true },
+      abstract: { type: String, required: true },
+      department: { type: String, required: true },
       upvotes: { type: Number, default: 0 },
-      favorite: { type: Number, default: 0 },
+    },
+    selfDeclaration: {
+      urecApproved: {
+        type: String,
+        enum: Object.values(URECStatus),
+        required: true,
+      },
+      authorsAwareness: { type: Boolean, required: true },
+      linkToPaper: { type: String, required: false },
+      contactable: { type: Boolean, required: true },
+      contactEmail: { type: String, required: false },
     },
   },
   { collection: "papers" },
@@ -68,10 +87,5 @@ const Paper =
     PaperSchema,
     "papers", // looks to be responsible to accessing the collections in mongodb
   );
-
-// const model = mongoose.model<
-//   InstitutionDocument,
-//   mongoose.PaginateModel<InstitutionDocument>
-// >("Institutions", institutionSchema, "institutions");
 
 export default Paper;
