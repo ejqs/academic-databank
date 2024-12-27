@@ -1,40 +1,12 @@
 import mongoose, { Document, Schema, PaginateModel } from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
-
-export enum Visibility {
-  "private", // Won't show up anywhere
-  "unlisted", // Won't show up in browse
-  "public", // Shows up in browse
-  // TODO: public-boosted for consideration
-  "public-boosted", // For future expansion; Shows up in homepage; boosting visibility might allow for a homepage discovery feature
-}
-
-export enum Status {
-  "in-progress", // show others its a work in progress
-  "submitted", // show others it's submitted
-  "published", // show others it has been published in a journal
-}
-
-// For future expansion
-export enum Kind {
-  "paper",
-  "question",
-}
-
-export enum URECStatus {
-  "yes",
-  "not applied",
-  "pending",
-  "no",
-}
-
-export enum Departments {}
+import { Departments, URECStatus, Visibility } from "../enums";
 
 // Define the PaperData interface
 interface PaperData {
   metadata: {
     tags: string[];
-    date: Date;
+    date: Date; // date submitted or finished (?)
     created: Date;
     lastModified: Date;
     hiddenByAdmin: boolean; // non overrideable visibility
@@ -65,7 +37,7 @@ interface PaperDocument extends Document, PaperData {}
 const PaperSchema = new Schema<PaperDocument>(
   {
     metadata: {
-      tags: { type: [String], required: false },
+      tags: { type: [String], required: false }, // user inputted
       date: { type: Date, required: true },
       created: { type: Date, default: Date.now },
       lastModified: { type: Date, default: Date.now },
@@ -73,6 +45,7 @@ const PaperSchema = new Schema<PaperDocument>(
       upvotes: { type: Number, default: 0 },
       favorite: { type: Number, default: 0 },
       visibility: {
+        // user inputted
         type: String,
         enum: Object.values(Visibility),
         default: "private",
@@ -93,7 +66,7 @@ const PaperSchema = new Schema<PaperDocument>(
       authorsAwareness: { type: Boolean, required: true },
       linkToPaper: { type: String, required: true },
       contactable: { type: Boolean, required: true },
-      contactEmail: { type: String, required: true },
+      contactEmail: { type: String, required: false },
     },
   },
   { collection: "papers" },
@@ -110,10 +83,5 @@ const Paper =
     PaperSchema,
     "papers", // looks to be responsible to accessing the collections in mongodb
   );
-
-// const model = mongoose.model<
-//   InstitutionDocument,
-//   mongoose.PaginateModel<InstitutionDocument>
-// >("Institutions", institutionSchema, "institutions");
 
 export default Paper;
