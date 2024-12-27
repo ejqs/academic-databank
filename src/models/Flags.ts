@@ -7,7 +7,7 @@ interface IFeatures {
 export interface IFlags extends Document {
   features: IFeatures;
 }
-
+// TODO: Fix this, make it adapt to different names, etc
 const FlagSchema = new Schema<IFlags>(
   {
     features: {
@@ -15,7 +15,7 @@ const FlagSchema = new Schema<IFlags>(
       allowPersonalEmails: Boolean,
     },
   },
-  { collection: "features" }
+  { collection: "features" },
 );
 
 const Flags: Model<IFlags> =
