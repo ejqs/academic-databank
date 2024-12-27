@@ -1,26 +1,60 @@
 import mongoose, { Document, Schema, PaginateModel } from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
 
+export enum Visibility {
+  "private", // Won't show up anywhere
+  "unlisted", // Won't show up in browse
+  "public", // Shows up in browse
+  // TODO: public-boosted for consideration
+  "public-boosted", // For future expansion; Shows up in homepage; boosting visibility might allow for a homepage discovery feature
+}
+
+export enum Status {
+  "in-progress", // show others its a work in progress
+  "submitted", // show others it's submitted
+  "published", // show others it has been published in a journal
+}
+
+// For future expansion
+export enum Kind {
+  "paper",
+  "question",
+}
+
+export enum URECStatus {
+  "yes",
+  "not applied",
+  "pending",
+  "no",
+}
+
+export enum Departments {}
+
 // Define the PaperData interface
 interface PaperData {
-  title: string;
-  authors: string[];
-  abstract: string;
-  tags: string[];
-  department: string;
-  date: Date;
-  created: Date;
-  lastModified: Date;
-  hiddenByAdmin: boolean;
-  hiddenByUser?: number; // Unix timestamp, can be null if not hidden by user
-  declaration: {
-    signed: boolean;
-    dateSigned: Date;
-  };
-  status: "draft" | "submitted" | "approved" | "rejected";
-  meta: {
+  metadata: {
+    tags: string[];
+    date: Date;
+    created: Date;
+    lastModified: Date;
+    hiddenByAdmin: boolean; // non overrideable visibility
     upvotes: number;
     favorite: number;
+    visibility: String;
+  };
+  basic: {
+    title: string;
+    authors: string[];
+    abstract: string;
+    department: Departments;
+  };
+
+  selfDeclaration: {
+    urecApproved: URECStatus;
+    authorsAwareness: boolean;
+    linkToPaper: string;
+    contactable: boolean;
+    contactEmail: string;
   };
 }
 
@@ -30,28 +64,36 @@ interface PaperDocument extends Document, PaperData {}
 // Define the PaperSchema
 const PaperSchema = new Schema<PaperDocument>(
   {
-    title: { type: String, required: true },
-    authors: { type: [String], required: true },
-    abstract: { type: String, required: true },
-    tags: { type: [String], required: true },
-    department: { type: String, required: true },
-    date: { type: Date, required: true },
-    created: { type: Date, default: Date.now },
-    lastModified: { type: Date, default: Date.now },
-    hiddenByAdmin: { type: Boolean, default: false },
-    hiddenByUser: { type: Number }, // Unix timestamp, can be null if not hidden by user
-    declaration: {
-      signed: { type: Boolean, required: true },
-      dateSigned: { type: Date, required: true },
-    },
-    status: {
-      type: String,
-      enum: ["draft", "submitted", "approved", "rejected"],
-      default: "draft",
-    },
-    meta: {
+    metadata: {
+      tags: { type: [String], required: false },
+      date: { type: Date, required: true },
+      created: { type: Date, default: Date.now },
+      lastModified: { type: Date, default: Date.now },
+      hiddenByAdmin: { type: Boolean, default: false },
       upvotes: { type: Number, default: 0 },
       favorite: { type: Number, default: 0 },
+      visibility: {
+        type: String,
+        enum: Object.values(Visibility),
+        default: "private",
+      },
+    },
+    basic: {
+      title: { type: String, required: true },
+      authors: { type: [String], required: true },
+      abstract: { type: String, required: true },
+      department: { type: String, required: true },
+    },
+    selfDeclaration: {
+      urecApproved: {
+        type: String,
+        enum: Object.values(URECStatus),
+        required: true,
+      },
+      authorsAwareness: { type: Boolean, required: true },
+      linkToPaper: { type: String, required: true },
+      contactable: { type: Boolean, required: true },
+      contactEmail: { type: String, required: true },
     },
   },
   { collection: "papers" },
