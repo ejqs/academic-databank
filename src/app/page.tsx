@@ -17,5 +17,5 @@ export default async function Home() {
       </div>
     );
   // example https://www.google.com/search?q=test&num=10
-  redirect("/browse?limit=10&page=1");
+  redirect("/paper/browse?limit=10&page=1");
 }

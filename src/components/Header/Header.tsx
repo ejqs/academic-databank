@@ -18,7 +18,7 @@ export async function Header() {
           </div>
         </div>
         <div>
-          <Link href={"/create"}>Add Paper</Link>
+          <Link href={"/paper/create"}>Add Paper</Link>
           <AuthButton />
         </div>
       </div>
