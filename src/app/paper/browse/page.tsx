@@ -39,6 +39,9 @@ export default async function BrowsePage({
   console.log(options);
   // Has error for some reason but it works. 🤷‍♂️
 
+  if (query) {
+  }
+
   const papers = await Paper.paginate(
     { "metadata.visibility": { $in: ["public"] } },
     options,

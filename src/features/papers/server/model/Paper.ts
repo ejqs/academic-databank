@@ -1,21 +1,22 @@
 import mongoose, { Document, Schema, PaginateModel } from "mongoose";
 import mongoosePaginate from "mongoose-paginate-v2";
-import { Departments, URECStatus, Visibility } from "../enums";
+import { Departments, Status, URECStatus, Visibility } from "../enums";
 
 // Define the PaperData interface
 interface PaperData {
   metadata: {
     owner: string;
     rankingBias: number;
-    date: Date; // date submitted or finished (?)
+    created: Date;
     lastModified: Date;
     hiddenByAdmin: boolean; // non overrideable visibility
     favoriteCount: number;
     visibility: String;
   };
   basic: {
+    paperStatus: Status;
+    datePaperFinished: Date; // date submitted or finished (?
     tags: string[];
-    created: Date;
     title: string;
     authors: string[];
     abstract: string;
@@ -41,7 +42,7 @@ const PaperSchema = new Schema<PaperDocument>(
     metadata: {
       owner: { type: String, required: true },
       rankingBias: { type: Number, default: 0 },
-      date: { type: Date, required: true }, // user inputted
+      created: { type: Date, default: Date.now },
       lastModified: { type: Date, default: Date.now },
       hiddenByAdmin: { type: Boolean, default: false },
       favoriteCount: { type: Number, default: 0 },
@@ -53,8 +54,9 @@ const PaperSchema = new Schema<PaperDocument>(
       },
     },
     basic: {
+      paperStatus: { type: String, required: true },
+      datePaperFinished: { type: Date, required: false }, // user inputted
       tags: { type: [String], required: false }, // user inputted
-      created: { type: Date, default: Date.now },
       title: { type: String, required: true },
       authors: { type: [String], required: true },
       abstract: { type: String, required: true },
