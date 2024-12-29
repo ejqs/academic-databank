@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import { deletePaper } from "@/features/papers/server/actions";
 import Paper from "@/features/papers/server/model/Paper";
 
 import { ensureDBConnection } from "@/lib/ensureDB";
@@ -11,9 +12,12 @@ export default async function ViewPaperPage({
 }) {
   await ensureDBConnection();
   const id = (await params).id;
-  const paper = await Paper.findOne({ _id: id });
+  const paper = await Paper.findById(id);
+
   const session = await auth();
-  if (!session?.user) return null;
+  if (!session?.user) return <>Unauthorized</>;
+  if (!paper) return <>Paper does not exist! It might have been deleted. </>;
+
   return (
     <div>
       {session.user.email === paper.metadata.owner ? (
@@ -21,7 +25,9 @@ export default async function ViewPaperPage({
           <div>
             <Link href={`${id}/edit`}>Edit Post</Link>
           </div>
-          <div>Delete Post</div>
+          <div>
+            <Link href={`${id}/delete`}>Delete Post</Link>
+          </div>
         </>
       ) : null}
 
