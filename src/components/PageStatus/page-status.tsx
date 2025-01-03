@@ -36,7 +36,7 @@ export function PageStatus() {
       {pathname === "/" ? (
         <>
           <div
-            className={`tw-absolute tw-ml-auto tw-mr-auto tw-left-0 tw-right-0 tw-m-14 tw-bg-accent tw-w-fit tw-h-5 tw-p-10 tw-flex tw-items-center tw-rounded-xl tw-py-4 fake-glow-accent hover:-tw-translate-y-1 hover:tw-blur-xs hover:tw-scale-95 hover:tw-cursor-pointer tw-transition-all tw-duration-700 ${animatePop} `}
+            className={`tw-absolute tw-ml-auto tw-mr-auto tw-left-0 tw-right-0 tw-m-14 tw-bg-accent tw-w-fit tw-h-5 tw-p-10 tw-flex tw-items-center tw-rounded-xl tw-py-4 tw-fake-glow-accent hover:-tw-translate-y-1 hover:tw-blur-xs hover:tw-scale-95 hover:tw-cursor-pointer tw-transition-all tw-duration-700 ${animatePop} `}
             onClick={handleClickPopUp}
           >
             🚧 Site is Currently Under Construction 🚧

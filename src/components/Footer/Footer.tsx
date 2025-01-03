@@ -7,7 +7,7 @@ export function Footer() {
         {Object.values(ProjectMetadataFooter).map((setting) => {
           return (
             <div key={setting} className="tw-text-xs tw-py-5 tw-w-14">
-              <div className="clickable-basic">{setting}</div>
+              <div className="tw-clickable-basic">{setting}</div>
             </div>
           );
         })}

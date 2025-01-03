@@ -21,10 +21,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       >
         {/* <body className="tw-bg-background-100"> */}
         <Providers>
-          <PageStatus />
+          {/* <PageStatus /> */}
           <Header />
           <Suspense>{children}</Suspense>
-          {/* <Footer /> */}
+          <Footer />
         </Providers>
       </body>
     </html>

@@ -11,9 +11,9 @@ export default async function Home() {
 
   if (!session?.user)
     return (
-      <div className="tw-h-full tw-flex tw-justify-center tw-flex-col tw-self-center tw-text-center tw-mb-24 tw-text-3xl">
+      <div className="tw-h-full tw-flex tw-justify-center tw-flex-col tw-self-center tw-text-center tw-content-center tw-mb-24 tw-text-3xl">
         {ProjectMetadata.homepageAcessible}
-        <SignIn className="tw-mt-3 clickable-basic" text="Continue" />
+        <SignIn className="tw-mt-3 tw-clickable-basic tw-inline" />
       </div>
     );
   // example https://www.google.com/search?q=test&num=10
