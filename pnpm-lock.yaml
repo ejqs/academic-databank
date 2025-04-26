@@ -54,8 +54,8 @@ importers:
         specifier: ^6.12.0
         version: 6.12.0
       mongoose:
-        specifier: ^8.9.2
-        version: 8.9.2
+        specifier: ^8.9.5
+        version: 8.9.5
       mongoose-paginate-v2:
         specifier: ^1.8.5
         version: 1.8.5
@@ -802,6 +802,11 @@ packages:
 
   bson@6.10.1:
     resolution: {integrity: sha512-P92xmHDQjSKPLHqFxefqMxASNq/aWJMEZugpCjf+AF/pgcUpMMQCg7t7+ewko0/u8AapvF3luf/FoehddEK+sA==}
+    engines: {node: '>=16.20.1'}
+    deprecated: a critical bug affecting only useBigInt64=true deserialization usage is fixed in bson@6.10.3
+
+  bson@6.10.3:
+    resolution: {integrity: sha512-MTxGsqgYTwfshYWTRdmZRC+M7FnG1b4y7RO7p2k3X24Wq0yv1m77Wsj0BzlPzd/IowgESfsruQCUToa7vbOpPQ==}
     engines: {node: '>=16.20.1'}
 
   busboy@1.6.0:
@@ -1656,8 +1661,8 @@ packages:
     resolution: {integrity: sha512-kFxhot+yw9KmpAGSSrF/o+f00aC2uawgNUbhyaM0USS9L7dln1NA77/pLg4lgOaRgXMtfgCENamjqZwIM1Zrig==}
     engines: {node: '>=4.0.0'}
 
-  mongoose@8.9.2:
-    resolution: {integrity: sha512-mLWynmZS1v8HTeMxyLhskQncS1SkrjW1eLNuFDYGQMQ/5QrFrxTLNwWXeCRZeKT2lXyaxW8bnJC9AKPT9jYMkw==}
+  mongoose@8.9.5:
+    resolution: {integrity: sha512-SPhOrgBm0nKV3b+IIHGqpUTOmgVL5Z3OO9AwkFEmvOZznXTvplbomstCnPOGAyungtRXE5pJTgKpKcZTdjeESg==}
     engines: {node: '>=16.20.1'}
 
   mpath@0.9.0:
@@ -3135,6 +3140,8 @@ snapshots:
 
   bson@6.10.1: {}
 
+  bson@6.10.3: {}
+
   busboy@1.6.0:
     dependencies:
       streamsearch: 1.1.0
@@ -4100,9 +4107,9 @@ snapshots:
 
   mongoose-paginate-v2@1.8.5: {}
 
-  mongoose@8.9.2:
+  mongoose@8.9.5:
     dependencies:
-      bson: 6.10.1
+      bson: 6.10.3
       kareem: 2.6.3
       mongodb: 6.12.0
       mpath: 0.9.0
