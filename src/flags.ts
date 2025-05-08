@@ -5,7 +5,7 @@
 
 // DONE: Test if caching is working properly
 
-import { unstable_flag as flag } from "@vercel/flags/next";
+import { flag } from "flags/next";
 
 const cache = new Map<string, { value: any; expiry: number }>();
 const CACHE_EXPIRY_TIME = 1 * 60 * 1000; // 1 minutes
